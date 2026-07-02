@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 6 — Productividad y Trabajo Colaborativo · TIC ITB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D1117;--surface:#161B22;--surface2:#1C2129;--border:#21262D;
+  --indigo:#6366F1;--indigo-dim:#1a1b3a;
+  --cyan:#22D3EE;--cyan-dim:#0a2d33;
+  --emerald:#10B981;--emerald-dim:#1a4731;
+  --amber:#F59E0B;--rose:#F43F5E;
+  --blue:#3B82F6;--muted:#8B949E;--text:#E6EDF3;--radius:10px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.65}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(99,102,241,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(99,102,241,.025) 1px,transparent 1px);
+  background-size:40px 40px}
+nav{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;
+  justify-content:space-between;padding:0 2rem;height:54px;gap:12px}
+.nav-brand{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;
+  color:var(--indigo);display:flex;align-items:center;gap:7px;white-space:nowrap}
+.nav-brand .sep{color:var(--border)}
+.nav-brand .dim{color:var(--muted);font-weight:400}
+.nav-links{display:flex;gap:4px;overflow-x:auto}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:12px;
+  font-family:'JetBrains Mono',monospace;padding:4px 10px;border-radius:6px;transition:all .2s;white-space:nowrap}
+.nav-links a:hover{color:var(--text);background:var(--surface)}
+.nav-back{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--indigo-dim);
+  border:1px solid rgba(99,102,241,.4);color:var(--indigo);padding:3px 12px;border-radius:20px;
+  white-space:nowrap;text-decoration:none;transition:opacity .2s}
+.nav-back:hover{opacity:.8}
+.hero{max-width:920px;margin:0 auto;padding:52px 1.5rem 40px;text-align:center}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:20px;
+  display:flex;align-items:center;justify-content:center;gap:10px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';flex:1;max-width:70px;height:1px;background:var(--border)}
+.hero h1{font-family:'JetBrains Mono',monospace;font-size:clamp(1.8rem,5vw,2.8rem);
+  font-weight:700;line-height:1.1;margin-bottom:8px}
+.hero h1 .ac{color:var(--indigo)}
+.hero h1 .dm{color:var(--muted)}
+.hero-sub{font-family:'JetBrains Mono',monospace;font-size:clamp(.85rem,2vw,1rem);
+  color:var(--muted);margin-bottom:14px}
+.hero p{color:var(--muted);font-size:14px;max-width:560px;margin:0 auto 28px}
+.hero-chips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.chip{font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 12px;
+  border-radius:20px;border:1px solid var(--border);color:var(--muted);background:var(--surface)}
+.chip.active{background:var(--indigo-dim);border-color:var(--indigo);color:var(--indigo)}
+.wrap{max-width:920px;margin:0 auto;padding:0 1.5rem}
+.module{margin-bottom:52px}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec-tag::after{content:'';flex:1;height:1px;background:var(--border)}
+.sec-title{font-size:20px;font-weight:700;margin-bottom:8px}
+.sec-desc{font-size:14px;color:var(--muted);max-width:700px;line-height:1.7;margin-bottom:20px}
+.sec-desc strong{color:var(--text)}
+/* Platform toggle */
+.platform-toggle{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.pt-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
+  padding:6px 16px;border-radius:7px;border:1px solid var(--border);
+  background:var(--surface2);color:var(--muted);cursor:pointer;transition:all .2s}
+.pt-btn.pt-drive.active{background:rgba(66,133,244,.1);color:#4285F4;border-color:rgba(66,133,244,.3)}
+.pt-btn.pt-office.active{background:rgba(242,80,34,.08);color:#F25022;border-color:rgba(242,80,34,.3)}
+.pt-btn:not(.active):hover{color:var(--text);border-color:var(--border2)}
+/* Step accordion */
+.step-card{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.step-card:hover{border-color:#30363D}
+.step-card.open{border-color:var(--indigo)}
+.step-trigger{display:flex;align-items:center;gap:12px;padding:15px 18px;
+  cursor:pointer;user-select:none;transition:background .2s}
+.step-trigger:hover{background:var(--surface2)}
+.step-card.open .step-trigger{background:var(--indigo-dim)}
+.sn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  color:var(--muted);background:var(--surface2);border:1px solid var(--border);
+  min-width:26px;height:26px;border-radius:5px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;transition:all .2s}
+.step-card.open .sn{color:var(--indigo);background:var(--indigo-dim);border-color:rgba(99,102,241,.3)}
+.step-title{flex:1;font-size:14px;font-weight:600}
+.step-arrow{color:var(--muted);transition:transform .2s}
+.step-card.open .step-arrow{transform:rotate(180deg);color:var(--indigo)}
+.step-body{display:none;padding:4px 18px 18px 56px}
+.step-card.open .step-body{display:block}
+/* platform sections */
+.p-section{display:none}
+.p-section.vis{display:block}
+.p-section ul{padding-left:18px;margin:4px 0}
+.p-section li{font-size:13.5px;color:var(--muted);line-height:1.8;margin-bottom:5px}
+.p-section li strong{color:var(--text)}
+.p-section em{color:var(--indigo);font-style:normal;font-weight:600}
+/* tip box */
+.tip{margin-top:12px;padding:11px 14px;border-radius:7px;
+  font-size:13px;line-height:1.6;display:flex;gap:9px}
+.tip-info{background:var(--indigo-dim);border:1px solid rgba(99,102,241,.25);color:var(--muted)}
+.tip-drive{background:rgba(66,133,244,.08);border:1px solid rgba(66,133,244,.25);color:var(--muted)}
+.tip-office{background:rgba(242,80,34,.06);border:1px solid rgba(242,80,34,.25);color:var(--muted)}
+.tip strong{color:var(--text)}
+.tip code{font-family:'JetBrains Mono',monospace;font-size:11.5px;
+  background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;color:var(--text)}
+/* checklist */
+.checklist{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px 22px;margin-top:32px}
+.cl-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cl-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.cl-count{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--indigo);
+  background:var(--indigo-dim);padding:3px 10px;border-radius:20px;border:1px solid rgba(99,102,241,.3)}
+.cl-bar{height:3px;background:var(--border);border-radius:2px;margin-bottom:14px;overflow:hidden}
+.cl-fill{height:100%;background:linear-gradient(90deg,var(--indigo),#22D3EE);border-radius:2px;transition:width .3s}
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;
+  border-bottom:1px solid var(--border)}
+.cl-item:last-child{border-bottom:none;padding-bottom:0}
+.cl-item input{width:15px;height:15px;accent-color:var(--indigo);cursor:pointer;flex-shrink:0;margin-top:2px}
+.cl-item label{font-size:13px;color:var(--muted);cursor:pointer;line-height:1.5}
+.cl-item.done label{text-decoration:line-through;color:#30363D}
+footer{border-top:1px solid var(--border);padding:26px 2rem;text-align:center;
+  color:var(--muted);font-size:13px;font-family:'JetBrains Mono',monospace;margin-top:40px}
+footer span{color:var(--indigo)}
+@media(max-width:600px){
+  nav{padding:0 1rem}
+  .nav-links{display:none}
+  .step-body{padding-left:16px}
+}
+
+/* extra: two-col nav area */
+.nav-left{display:flex;align-items:center;gap:8px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <div class="nav-brand">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      TIC <span class="sep">/</span> <span class="dim">semana-6</span>
+    </div>
+  </div>
+  <div class="nav-links"><a href="tic-semana1.html">S1</a><a href="tic-semana2.html">S2</a><a href="tic-semana3.html">S3</a><a href="tic-semana4.html">S4</a><a href="tic-semana5.html">S5</a><a href="tic-semana6.html">S6</a></div>
+  <a class="nav-back" href="TIC.html">↩ Índice TIC</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Semana 6 de 6 · Informática Aplicada</div>
+  <h1><span class="dm">Semana 6 —</span><br><span class="ac">Productividad y Trabajo Colaborativo</span></h1>
+  <div class="hero-sub">Calendario · Acta · Reporte · Presentación integrada</div>
+  <p>Simula una jornada empresarial real usando el ecosistema completo: planifica en el calendario, redacta el acta, construye el reporte y presenta los resultados.</p>
+  <div class="hero-chips"><span class="chip active">Calendario</span><span class="chip active">Comentarios</span><span class="chip active">Colaboración</span><span class="chip active">Flujo completo</span></div>
+</div>
+
+<div class="wrap">
+
+  <!-- Platform toggle -->
+  <div class="module">
+    <div class="sec-tag">// Selecciona tu plataforma</div>
+    <div class="platform-toggle">
+      <button class="pt-btn pt-drive active" id="btn-drive" onclick="setPlatform('drive')">
+        ☁ Google Drive (Sheets · Docs · Slides)
+      </button>
+      <button class="pt-btn pt-office" id="btn-office" onclick="setPlatform('office')">
+        ⊞ Microsoft 365 (Excel · Word · PowerPoint)
+      </button>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <div class="module">
+    <div class="sec-tag">// Laboratorio — 5 pasos</div>
+    <div class="sec-title">Productividad y Trabajo Colaborativo</div>
+    <div class="sec-desc">Simula una jornada empresarial real usando el ecosistema completo: planifica en el calendario, redacta el acta, construye el reporte y presenta los resultados.</div>
+    
+      <div class="step-card" id="sc0">
+        <div class="step-trigger" onclick="tog(0)">
+          <div class="sn">1</div>
+          <div class="step-title">Planificar la jornada en el calendario</div>
+          <div class="step-arrow">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="p-section" data-p="drive" id="d0"><ul>
+<li>Abre <strong>calendar.google.com</strong>.</li>
+<li>Haz clic en el día de hoy y selecciona <em>Más opciones</em> para crear un evento completo.</li>
+<li>Titúlalo <em>Reunión de equipo — Informe mensual</em> y configura hora de inicio y fin.</li>
+<li>En descripción escribe la agenda: lista de temas a tratar.</li>
+<li>Agrega un compañero como invitado por su correo y activa el recordatorio de 10 minutos.</li>
+</ul></div>
+          <div class="p-section" data-p="office" id="o0"><ul>
+<li>Abre <strong>Microsoft Outlook</strong> y ve a la vista de <strong>Calendario</strong>.</li>
+<li>Haz doble clic en el horario deseado, o haz clic en <strong>Nueva reunión</strong> para incluir invitados.</li>
+<li>Escribe el título, la descripción con la agenda, y la hora de inicio y fin.</li>
+<li>En "Para..." agrega los correos de los invitados y haz clic en <strong>Enviar</strong>.</li>
+<li>Los invitados recibirán una invitación y podrán aceptar, rechazar o proponer otro horario.</li>
+</ul></div>
+        </div>
+      </div>
+      <div class="step-card" id="sc1">
+        <div class="step-trigger" onclick="tog(1)">
+          <div class="sn">2</div>
+          <div class="step-title">Redactar el acta de reunión colaborativa</div>
+          <div class="step-arrow">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="p-section" data-p="drive" id="d1"><ul>
+<li>Crea un nuevo documento titulado <em>Acta de Reunión — [Fecha]</em>.</li>
+<li>Estructura: Fecha y hora, Participantes, Agenda, Desarrollo, Acuerdos y responsables, Próxima reunión.</li>
+<li>Comparte: clic en <strong>Compartir</strong>, agrega correos con permiso de <em>Editor</em>.</li>
+<li>Activa el historial desde <strong>Archivo › Historial de versiones</strong> para ver quién editó qué y cuándo.</li>
+</ul></div>
+          <div class="p-section" data-p="office" id="o1"><ul>
+<li>Crea un documento en Word titulado <em>Acta de Reunión — [Fecha]</em>.</li>
+<li>Misma estructura: Fecha, Participantes, Agenda, Desarrollo, Acuerdos, Próxima reunión.</li>
+<li>Para colaborar: guarda el archivo en <strong>OneDrive</strong> y comparte el enlace desde el botón <strong>Compartir</strong>.</li>
+<li>Activa el <strong>Control de cambios</strong> desde <strong>Revisar › Control de cambios</strong> para registrar cada edición con el nombre del autor.</li>
+</ul></div>
+        </div>
+      </div>
+      <div class="step-card" id="sc2">
+        <div class="step-trigger" onclick="tog(2)">
+          <div class="sn">3</div>
+          <div class="step-title">Construir el reporte de forma colaborativa</div>
+          <div class="step-arrow">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="p-section" data-p="drive" id="d2"><ul>
+<li>Crea una hoja de Google Sheets con datos del informe mensual (ventas, gastos, etc.).</li>
+<li>Compártela con permiso de Editor.</li>
+<li>Usa comentarios: clic derecho en una celda › <em>Agregar comentario</em>. Escribe una nota o pregunta.</li>
+<li>Usa <strong>@nombre</strong> dentro del comentario para notificar directamente a esa persona.</li>
+<li>Los cursores de cada usuario aparecen en diferente color durante la edición simultánea.</li>
+</ul></div>
+          <div class="p-section" data-p="office" id="o2"><ul>
+<li>Crea el archivo de Excel y guárdalo en OneDrive para habilitar la coautoría.</li>
+<li>Comparte el archivo desde el botón <strong>Compartir</strong> en la esquina superior derecha.</li>
+<li>Para agregar comentarios: clic derecho en una celda › <strong>Nuevo comentario</strong>.</li>
+<li>Para ver todos los comentarios: <strong>Revisar › Mostrar todos los comentarios</strong>.</li>
+</ul></div>
+        </div>
+      </div>
+      <div class="step-card" id="sc3">
+        <div class="step-trigger" onclick="tog(3)">
+          <div class="sn">4</div>
+          <div class="step-title">Preparar y compartir la presentación final</div>
+          <div class="step-arrow">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="p-section" data-p="drive" id="d3"><ul>
+<li>Crea la presentación de Google Slides con los hallazgos del reporte.</li>
+<li>Inserta al menos un gráfico vinculado desde Sheets (ver Semana 5).</li>
+<li>Comparte con permiso de <em>Comentador</em> para recibir retroalimentación sin modificar el diseño.</li>
+<li>Ensaya con <strong>Vista › Presentar</strong> desde la primera diapositiva.</li>
+</ul></div>
+          <div class="p-section" data-p="office" id="o3"><ul>
+<li>Crea la presentación en PowerPoint con los hallazgos del reporte de Excel.</li>
+<li>Inserta el gráfico de Excel con <em>Pegar con vínculo</em> para mantenerlo actualizado.</li>
+<li>Guarda en OneDrive y comparte con permiso de "Solo puede ver" para que otros revisen sin editar.</li>
+<li>Usa <strong>F5</strong> para iniciar la presentación desde el principio, o <strong>Shift+F5</strong> desde la diapositiva actual.</li>
+</ul></div>
+        </div>
+      </div>
+      <div class="step-card" id="sc4">
+        <div class="step-trigger" onclick="tog(4)">
+          <div class="sn">5</div>
+          <div class="step-title">Revisión final: flujo de trabajo integrado</div>
+          <div class="step-arrow">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="p-section" data-p="drive" id="d4"><ul>
+<li>Verifica que el evento en Calendar esté creado con invitados confirmados.</li>
+<li>El acta de Docs tiene al menos un comentario respondido.</li>
+<li>El reporte de Sheets tiene los datos completos y al menos un gráfico.</li>
+<li>La presentación de Slides tiene el gráfico vinculado y está lista para exponer.</li>
+<li><strong>Entregable:</strong> comparte los cuatro enlaces (Calendar, Docs, Sheets, Slides) en un solo mensaje simulando el reporte a tu supervisor.</li>
+</ul>
+<div class="tip tip-info"><strong>Reflexión:</strong> Identifica cuál parte del flujo te tomó más tiempo y piensa cómo podrías optimizarla en una jornada real de trabajo.</div></div>
+          <div class="p-section" data-p="office" id="o4"><ul>
+<li>Verifica que la reunión esté agendada en Outlook con invitados.</li>
+<li>El acta de Word está guardada en OneDrive y compartida.</li>
+<li>El reporte de Excel está completo y tiene al menos un gráfico.</li>
+<li>La presentación de PowerPoint tiene el gráfico vinculado.</li>
+<li><strong>Entregable:</strong> comparte los cuatro enlaces de OneDrive en un correo de Outlook simulando el reporte a tu supervisor.</li>
+</ul>
+<div class="tip tip-office"><strong>Ecosistema integrado:</strong> Outlook + Word + Excel + PowerPoint + OneDrive conforman el ecosistema Microsoft 365, equivalente al Google Workspace.</div></div>
+        </div>
+      </div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="checklist">
+    <div class="cl-top">
+      <div class="cl-title">// Lista de verificación</div>
+      <div class="cl-count" id="cl-count">0 / 5</div>
+    </div>
+    <div class="cl-bar"><div class="cl-fill" id="cl-fill" style="width:0%"></div></div>
+    
+        <div class="cl-item" id="cli0">
+          <input type="checkbox" id="chk0" onchange="check(0,this)">
+          <label for="chk0">Creé un evento en el calendario con agenda e invitados</label>
+        </div>
+        <div class="cl-item" id="cli1">
+          <input type="checkbox" id="chk1" onchange="check(1,this)">
+          <label for="chk1">Redacté el acta de reunión y la compartí con permiso correcto</label>
+        </div>
+        <div class="cl-item" id="cli2">
+          <input type="checkbox" id="chk2" onchange="check(2,this)">
+          <label for="chk2">Colaboré en la hoja de cálculo usando comentarios con @mención</label>
+        </div>
+        <div class="cl-item" id="cli3">
+          <input type="checkbox" id="chk3" onchange="check(3,this)">
+          <label for="chk3">Preparé la presentación con al menos un gráfico vinculado</label>
+        </div>
+        <div class="cl-item" id="cli4">
+          <input type="checkbox" id="chk4" onchange="check(4,this)">
+          <label for="chk4">Compartí los cuatro productos del flujo integrado</label>
+        </div>
+  </div>
+
+  <!-- Week navigation -->
+  <div style="display:flex;gap:12px;margin-top:32px;justify-content:space-between;flex-wrap:wrap;padding-bottom:24px">
+    <a href="tic-semana5.html" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);
+      background:var(--surface);border:1px solid var(--border);padding:8px 16px;border-radius:7px;
+      text-decoration:none;transition:all .2s"
+      onmouseover="this.style.borderColor='#6366F1'" onmouseout="this.style.borderColor='#21262D'">
+      ← Semana 5
+    </a>
+    <a href="TIC.html" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--indigo);
+      background:var(--indigo-dim);border:1px solid rgba(99,102,241,.3);padding:8px 16px;border-radius:7px;
+      text-decoration:none;transition:all .2s"
+      onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+      Índice TIC →
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  ITB — Instituto Tecnológico de Negocios &nbsp;·&nbsp; <span>TIC · Semana 6 — Productividad y Trabajo Colaborativo</span>
+</footer>
+
+<script>
+const TOTAL = 5;
+const KEY   = 'tic_s6_v1';
+let progress = JSON.parse(localStorage.getItem(KEY) || '[]');
+if (progress.length !== TOTAL) progress = Array(TOTAL).fill(false);
+
+// Init checklist from localStorage
+progress.forEach((v, i) => {
+  if (v) {
+    document.getElementById('chk'+i).checked = true;
+    document.getElementById('cli'+i).classList.add('done');
+  }
+});
+updateCL();
+
+function check(i, el) {
+  progress[i] = el.checked;
+  document.getElementById('cli'+i).classList.toggle('done', el.checked);
+  localStorage.setItem(KEY, JSON.stringify(progress));
+  updateCL();
+}
+
+function updateCL() {
+  const done = progress.filter(Boolean).length;
+  const pct  = Math.round(done / TOTAL * 100);
+  document.getElementById('cl-count').textContent = done + ' / ' + TOTAL;
+  document.getElementById('cl-fill').style.width  = pct + '%';
+}
+
+// Platform toggle
+let platform = 'drive';
+function setPlatform(p) {
+  platform = p;
+  document.getElementById('btn-drive').className  = 'pt-btn pt-drive'  + (p==='drive'  ? ' active' : '');
+  document.getElementById('btn-office').className = 'pt-btn pt-office' + (p==='office' ? ' active' : '');
+  document.querySelectorAll('.p-section').forEach(el => {
+    el.classList.toggle('vis', el.dataset.p === p);
+  });
+}
+// Init drive as default
+setPlatform('drive');
+
+// Accordion
+function tog(i) {
+  const card = document.getElementById('sc'+i);
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.step-card').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) card.classList.add('open');
+}
+</script>
+</body>
+</html>

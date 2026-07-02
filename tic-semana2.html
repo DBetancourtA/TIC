@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 2 — Aritmética y Análisis Estadístico · TIC ITB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D1117;--surface:#161B22;--surface2:#1C2129;--border:#21262D;
+  --indigo:#6366F1;--indigo-dim:#1a1b3a;
+  --cyan:#22D3EE;--cyan-dim:#0a2d33;
+  --emerald:#10B981;--emerald-dim:#1a4731;
+  --amber:#F59E0B;--rose:#F43F5E;
+  --blue:#3B82F6;--muted:#8B949E;--text:#E6EDF3;--radius:10px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.65}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(99,102,241,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(99,102,241,.025) 1px,transparent 1px);
+  background-size:40px 40px}
+nav{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;
+  justify-content:space-between;padding:0 2rem;height:54px;gap:12px}
+.nav-brand{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;
+  color:var(--indigo);display:flex;align-items:center;gap:7px;white-space:nowrap}
+.nav-brand .sep{color:var(--border)}
+.nav-brand .dim{color:var(--muted);font-weight:400}
+.nav-links{display:flex;gap:4px;overflow-x:auto}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:12px;
+  font-family:'JetBrains Mono',monospace;padding:4px 10px;border-radius:6px;transition:all .2s;white-space:nowrap}
+.nav-links a:hover{color:var(--text);background:var(--surface)}
+.nav-back{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--indigo-dim);
+  border:1px solid rgba(99,102,241,.4);color:var(--indigo);padding:3px 12px;border-radius:20px;
+  white-space:nowrap;text-decoration:none;transition:opacity .2s}
+.nav-back:hover{opacity:.8}
+.hero{max-width:920px;margin:0 auto;padding:52px 1.5rem 40px;text-align:center}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:20px;
+  display:flex;align-items:center;justify-content:center;gap:10px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';flex:1;max-width:70px;height:1px;background:var(--border)}
+.hero h1{font-family:'JetBrains Mono',monospace;font-size:clamp(1.8rem,5vw,2.8rem);
+  font-weight:700;line-height:1.1;margin-bottom:8px}
+.hero h1 .ac{color:var(--indigo)}
+.hero h1 .dm{color:var(--muted)}
+.hero-sub{font-family:'JetBrains Mono',monospace;font-size:clamp(.85rem,2vw,1rem);
+  color:var(--muted);margin-bottom:14px}
+.hero p{color:var(--muted);font-size:14px;max-width:560px;margin:0 auto 28px}
+.hero-chips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.chip{font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 12px;
+  border-radius:20px;border:1px solid var(--border);color:var(--muted);background:var(--surface)}
+.chip.active{background:var(--indigo-dim);border-color:var(--indigo);color:var(--indigo)}
+.wrap{max-width:920px;margin:0 auto;padding:0 1.5rem}
+.module{margin-bottom:52px}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec-tag::after{content:'';flex:1;height:1px;background:var(--border)}
+.sec-title{font-size:20px;font-weight:700;margin-bottom:8px}
+.sec-desc{font-size:14px;color:var(--muted);max-width:700px;line-height:1.7;margin-bottom:20px}
+.sec-desc strong{color:var(--text)}
+/* Platform toggle */
+.platform-toggle{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.pt-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
+  padding:6px 16px;border-radius:7px;border:1px solid var(--border);
+  background:var(--surface2);color:var(--muted);cursor:pointer;transition:all .2s}
+.pt-btn.pt-drive.active{background:rgba(66,133,244,.1);color:#4285F4;border-color:rgba(66,133,244,.3)}
+.pt-btn.pt-office.active{background:rgba(242,80,34,.08);color:#F25022;border-color:rgba(242,80,34,.3)}
+.pt-btn:not(.active):hover{color:var(--text);border-color:var(--border2)}
+/* Step accordion */
+.step-card{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.step-card:hover{border-color:#30363D}
+.step-card.open{border-color:var(--indigo)}
+.step-trigger{display:flex;align-items:center;gap:12px;padding:15px 18px;
+  cursor:pointer;user-select:none;transition:background .2s}
+.step-trigger:hover{background:var(--surface2)}
+.step-card.open .step-trigger{background:var(--indigo-dim)}
+.sn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  color:var(--muted);background:var(--surface2);border:1px solid var(--border);
+  min-width:26px;height:26px;border-radius:5px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;transition:all .2s}
+.step-card.open .sn{color:var(--indigo);background:var(--indigo-dim);border-color:rgba(99,102,241,.3)}
+.step-title{flex:1;font-size:14px;font-weight:600}
+.step-arrow{color:var(--muted);transition:transform .2s}
+.step-card.open .step-arrow{transform:rotate(180deg);color:var(--indigo)}
+.step-body{display:none;padding:4px 18px 18px 56px}
+.step-card.open .step-body{display:block}
+/* platform sections */
+.p-section{display:none}
+.p-section.vis{display:block}
+.p-section ul{padding-left:18px;margin:4px 0}
+.p-section li{font-size:13.5px;color:var(--muted);line-height:1.8;margin-bottom:5px}
+.p-section li strong{color:var(--text)}
+.p-section em{color:var(--indigo);font-style:normal;font-weight:600}
+/* tip box */
+.tip{margin-top:12px;padding:11px 14px;border-radius:7px;
+  font-size:13px;line-height:1.6;display:flex;gap:9px}
+.tip-info{background:var(--indigo-dim);border:1px solid rgba(99,102,241,.25);color:var(--muted)}
+.tip-drive{background:rgba(66,133,244,.08);border:1px solid rgba(66,133,244,.25);color:var(--muted)}
+.tip-office{background:rgba(242,80,34,.06);border:1px solid rgba(242,80,34,.25);color:var(--muted)}
+.tip strong{color:var(--text)}
+.tip code{font-family:'JetBrains Mono',monospace;font-size:11.5px;
+  background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;color:var(--text)}
+/* checklist */
+.checklist{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px 22px;margin-top:32px}
+.cl-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cl-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.cl-count{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--indigo);
+  background:var(--indigo-dim);padding:3px 10px;border-radius:20px;border:1px solid rgba(99,102,241,.3)}
+.cl-bar{height:3px;background:var(--border);border-radius:2px;margin-bottom:14px;overflow:hidden}
+.cl-fill{height:100%;background:linear-gradient(90deg,var(--indigo),#22D3EE);border-radius:2px;transition:width .3s}
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;
+  border-bottom:1px solid var(--border)}
+.cl-item:last-child{border-bottom:none;padding-bottom:0}
+.cl-item input{width:15px;height:15px;accent-color:var(--indigo);cursor:pointer;flex-shrink:0;margin-top:2px}
+.cl-item label{font-size:13px;color:var(--muted);cursor:pointer;line-height:1.5}
+.cl-item.done label{text-decoration:line-through;color:#30363D}
+footer{border-top:1px solid var(--border);padding:26px 2rem;text-align:center;
+  color:var(--muted);font-size:13px;font-family:'JetBrains Mono',monospace;margin-top:40px}
+footer span{color:var(--indigo)}
+@media(max-width:600px){
+  nav{padding:0 1rem}
+  .nav-links{display:none}
+  .step-body{padding-left:16px}
+}
+
+/* extra: two-col nav area */
+.nav-left{display:flex;align-items:center;gap:8px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <div class="nav-brand">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      TIC <span class="sep">/</span> <span class="dim">semana-2</span>
+    </div>
+  </div>
+  <div class="nav-links"><a href="tic-semana1.html">S1</a><a href="tic-semana2.html">S2</a><a href="tic-semana3.html">S3</a><a href="tic-semana4.html">S4</a><a href="tic-semana5.html">S5</a><a href="tic-semana6.html">S6</a></div>
+  <a class="nav-back" href="TIC.html">↩ Índice TIC</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Semana 2 de 6 · Informática Aplicada</div>
+  <h1><span class="dm">Semana 2 —</span><br><span class="ac">Aritmética y Análisis Estadístico</span></h1>
+  <div class="hero-sub">Fórmulas · SUMA · PROMEDIO · CONTAR.SI</div>
+  <p>Domina las fórmulas aritméticas básicas y las funciones estadísticas esenciales para analizar datos numéricos en un rol de pagos real.</p>
+  <div class="hero-chips"><span class="chip active">Rol de pagos</span><span class="chip active">SUMA</span><span class="chip active">PROMEDIO·MAX·MIN</span><span class="chip active">CONTAR.SI</span></div>
+</div>
+
+<div class="wrap">
+
+  <!-- Platform toggle -->
+  <div class="module">
+    <div class="sec-tag">// Selecciona tu plataforma</div>
+    <div class="platform-toggle">
+      <button class="pt-btn pt-drive active" id="btn-drive" onclick="setPlatform('drive')">
+        ☁ Google Drive (Sheets · Docs · Slides)
+      </button>
+      <button class="pt-btn pt-office" id="btn-office" onclick="setPlatform('office')">
+        ⊞ Microsoft 365 (Excel · Word · PowerPoint)
+      </button>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <div class="module">
+    <div class="sec-tag">// Laboratorio — 5 pasos</div>
+    <div class="sec-title">Aritmética y Análisis Estadístico</div>
+    <div class="sec-desc">Domina las fórmulas aritméticas básicas y las funciones estadísticas esenciales para analizar datos numéricos en un rol de pagos real.</div>
+    
+      <div class="step-card" id="sc0">
+        <div class="step-trigger" onclick="tog(0)">
+          <div class="sn">1</div>
+          <div class="step-title">Preparar la hoja de rol de pagos</div>
+          <div class="step-arrow">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="p-section" data-p="drive" id="d0"><ul>
+<li>En tu archivo, haz clic en el botón <strong>+</strong> en la barra de pestañas para crear una hoja nueva.</li>
+<li>Doble clic sobre la pestaña y renómbrala como <em>Rol de Pagos</em>.</li>
+<li>En la fila 1 escribe los encabezados: <em>Empleado, Sueldo Base, Horas Extra, Descuento, Total a Pagar</em> en columnas A a E.</li>
+<li>Agrega al menos 6 filas de datos inventados en las columnas A, B, C y D.</li>
+</ul></div>
+          <div class="p-section" data-p="office" id="o0"><ul>
+<li>Haz clic derecho en la pestaña de la hoja activa y elige <strong>Insertar › Hoja de cálculo</strong>.</li>
+<li>Doble clic en la pestaña de la nueva hoja y escribe el nombre <em>Rol de Pagos</em>.</li>
+<li>En la fila 1 escribe: <em>Empleado, Sueldo Base, Horas Extra, Descuento, Total a Pagar</em> en las columnas A a E.</li>
+<li>Completa al menos 6 filas con datos de ejemplo.</li>
+</ul></div>
+        </div>
+      </div>
+      <div class="step-card" id="sc1">
+        <div class="step-trigger" onclick="tog(1)">
+          <div class="sn">2</div>
+          <div class="step-title">Fórmulas aritméticas: +, -, *, /</div>
+          <div class="step-arrow">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="p-section" data-p="drive" id="d1"><ul>
+<li>En la celda E2 escribe: <strong>=B2+C2-D2</strong> para calcular el total del primer empleado.</li>
+<li>Para copiar la fórmula: haz clic en E2 y arrastra el cuadro azul de la esquina inferior derecha hasta la última fila.</li>
+<li>Multiplicación en columna auxiliar: <strong>=B2*0.1</strong> calcula el 10% del sueldo.</li>
+<li>División: <strong>=B2/30</strong> calcula el valor diario del sueldo base.</li>
+</ul>
+<div class="tip tip-info"><strong>Regla clave:</strong> Toda fórmula comienza con el signo <strong>=</strong>. Sin el signo, el texto se escribe tal cual sin calcular.</div></div>
+          <div class="p-section" data-p="office" id="o1"><ul>
+<li>En la celda E2 escribe: <strong>=B2+C2-D2</strong> para el total del primer empleado.</li>
+<li>Haz clic en E2. Posiciona el cursor en la esquina inferior derecha hasta que aparezca un <strong>+</strong> negro, luego arrastra hacia abajo.</li>
+<li>Multiplicación: <strong>=B2*0.1</strong> para el 10% del sueldo. División: <strong>=B2/30</strong> para el valor diario.</li>
+</ul>
+<div class="tip tip-office"><strong>Consejo:</strong> Doble clic en el controlador de relleno copia la fórmula automáticamente hasta la última fila con datos.</div></div>
+        </div>
+      </div>
+      <div class="step-card" id="sc2">
+        <div class="step-trigger" onclick="tog(2)">
+          <div class="sn">3</div>
+          <div class="step-title">Función SUMA</div>
+          <div class="step-arrow">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="p-section" data-p="drive" id="d2"><ul>
+<li>En una celda vacía debajo de la columna de sueldos escribe: <strong>=SUMA(B2:B7)</strong></li>
+<li>El rango B2:B7 indica desde la celda B2 hasta B7. Ajústalo según tus datos.</li>
+<li>También funciona con celdas separadas: <strong>=SUMA(B2,B4,B6)</strong></li>
+<li>Aplica SUMA a la columna "Total a Pagar" para obtener la nómina total del mes.</li>
+</ul></div>
+          <div class="p-section" data-p="office" id="o2"><ul>
+<li>Escribe en una celda vacía: <strong>=SUMA(B2:B7)</strong>. La función se llama igual en Excel.</li>
+<li>Alternativa rápida: selecciona el rango de números y presiona <strong>Alt+Shift+0</strong> para insertar SUMA automáticamente.</li>
+<li>También puedes usar el botón <strong>Autosuma</strong> en la pestaña Inicio o en la pestaña Fórmulas.</li>
+</ul></div>
+        </div>
+      </div>
+      <div class="step-card" id="sc3">
+        <div class="step-trigger" onclick="tog(3)">
+          <div class="sn">4</div>
+          <div class="step-title">Funciones PROMEDIO, MAX y MIN</div>
+          <div class="step-arrow">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="p-section" data-p="drive" id="d3"><ul>
+<li><strong>=PROMEDIO(B2:B7)</strong> — calcula el sueldo promedio del rango.</li>
+<li><strong>=MAX(B2:B7)</strong> — muestra el sueldo más alto.</li>
+<li><strong>=MIN(B2:B7)</strong> — muestra el sueldo más bajo.</li>
+<li>Crea un área de resumen en las columnas G y H con etiquetas en G y las fórmulas en H.</li>
+</ul></div>
+          <div class="p-section" data-p="office" id="o3"><ul>
+<li><strong>=PROMEDIO(B2:B7)</strong> — promedio de sueldos (AVERAGE en inglés).</li>
+<li><strong>=MAX(B2:B7)</strong> — valor máximo. <strong>=MIN(B2:B7)</strong> — valor mínimo.</li>
+<li>Estas funciones tienen el mismo nombre en Excel. Crea un área de resumen a la derecha de tus datos.</li>
+</ul>
+<div class="tip tip-office"><strong>Versión en inglés:</strong> SUMA=SUM · PROMEDIO=AVERAGE · MAX=MAX · MIN=MIN</div></div>
+        </div>
+      </div>
+      <div class="step-card" id="sc4">
+        <div class="step-trigger" onclick="tog(4)">
+          <div class="sn">5</div>
+          <div class="step-title">Función CONTAR.SI</div>
+          <div class="step-arrow">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="p-section" data-p="drive" id="d4"><ul>
+<li>Estructura: <strong>=CONTAR.SI(rango, condición)</strong></li>
+<li>Ejemplo: <strong>=CONTAR.SI(B2:B11,">=14")</strong> cuenta alumnos con nota 14 o más.</li>
+<li>Para reprobados: <strong>=CONTAR.SI(B2:B11,"&lt;14")</strong></li>
+<li>La condición siempre va entre comillas dobles, incluso cuando es un número.</li>
+</ul></div>
+          <div class="p-section" data-p="office" id="o4"><ul>
+<li>En Excel la función se escribe igual: <strong>=CONTAR.SI(B2:B11,">=14")</strong></li>
+<li>Si tu Excel está en inglés, se llama <strong>=COUNTIF(B2:B11,">=14")</strong></li>
+<li>Practica con al menos tres condiciones distintas: mayor, menor e igual a un valor.</li>
+</ul></div>
+        </div>
+      </div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="checklist">
+    <div class="cl-top">
+      <div class="cl-title">// Lista de verificación</div>
+      <div class="cl-count" id="cl-count">0 / 5</div>
+    </div>
+    <div class="cl-bar"><div class="cl-fill" id="cl-fill" style="width:0%"></div></div>
+    
+        <div class="cl-item" id="cli0">
+          <input type="checkbox" id="chk0" onchange="check(0,this)">
+          <label for="chk0">Creé la hoja Rol de Pagos con los encabezados correctos</label>
+        </div>
+        <div class="cl-item" id="cli1">
+          <input type="checkbox" id="chk1" onchange="check(1,this)">
+          <label for="chk1">Usé las cuatro operaciones aritméticas (+, -, *, /) con fórmulas</label>
+        </div>
+        <div class="cl-item" id="cli2">
+          <input type="checkbox" id="chk2" onchange="check(2,this)">
+          <label for="chk2">Apliqué SUMA a una columna completa</label>
+        </div>
+        <div class="cl-item" id="cli3">
+          <input type="checkbox" id="chk3" onchange="check(3,this)">
+          <label for="chk3">Obtuve el PROMEDIO, MAX y MIN de un rango</label>
+        </div>
+        <div class="cl-item" id="cli4">
+          <input type="checkbox" id="chk4" onchange="check(4,this)">
+          <label for="chk4">Usé CONTAR.SI con al menos dos condiciones distintas</label>
+        </div>
+  </div>
+
+  <!-- Week navigation -->
+  <div style="display:flex;gap:12px;margin-top:32px;justify-content:space-between;flex-wrap:wrap;padding-bottom:24px">
+    <a href="tic-semana1.html" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);
+      background:var(--surface);border:1px solid var(--border);padding:8px 16px;border-radius:7px;
+      text-decoration:none;transition:all .2s"
+      onmouseover="this.style.borderColor='#6366F1'" onmouseout="this.style.borderColor='#21262D'">
+      ← Semana 1
+    </a>
+    <a href="tic-semana3.html" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--indigo);
+      background:var(--indigo-dim);border:1px solid rgba(99,102,241,.3);padding:8px 16px;border-radius:7px;
+      text-decoration:none;transition:all .2s"
+      onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+      Semana 3 →
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  ITB — Instituto Tecnológico de Negocios &nbsp;·&nbsp; <span>TIC · Semana 2 — Aritmética y Análisis Estadístico</span>
+</footer>
+
+<script>
+const TOTAL = 5;
+const KEY   = 'tic_s2_v1';
+let progress = JSON.parse(localStorage.getItem(KEY) || '[]');
+if (progress.length !== TOTAL) progress = Array(TOTAL).fill(false);
+
+// Init checklist from localStorage
+progress.forEach((v, i) => {
+  if (v) {
+    document.getElementById('chk'+i).checked = true;
+    document.getElementById('cli'+i).classList.add('done');
+  }
+});
+updateCL();
+
+function check(i, el) {
+  progress[i] = el.checked;
+  document.getElementById('cli'+i).classList.toggle('done', el.checked);
+  localStorage.setItem(KEY, JSON.stringify(progress));
+  updateCL();
+}
+
+function updateCL() {
+  const done = progress.filter(Boolean).length;
+  const pct  = Math.round(done / TOTAL * 100);
+  document.getElementById('cl-count').textContent = done + ' / ' + TOTAL;
+  document.getElementById('cl-fill').style.width  = pct + '%';
+}
+
+// Platform toggle
+let platform = 'drive';
+function setPlatform(p) {
+  platform = p;
+  document.getElementById('btn-drive').className  = 'pt-btn pt-drive'  + (p==='drive'  ? ' active' : '');
+  document.getElementById('btn-office').className = 'pt-btn pt-office' + (p==='office' ? ' active' : '');
+  document.querySelectorAll('.p-section').forEach(el => {
+    el.classList.toggle('vis', el.dataset.p === p);
+  });
+}
+// Init drive as default
+setPlatform('drive');
+
+// Accordion
+function tog(i) {
+  const card = document.getElementById('sc'+i);
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.step-card').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) card.classList.add('open');
+}
+</script>
+</body>
+</html>

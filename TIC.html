@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informática Aplicada — ITB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D1117;--surface:#161B22;--surface2:#1C2129;--border:#21262D;
+  --indigo:#6366F1;--indigo-dim:#1a1b3a;--indigo-mid:rgba(99,102,241,.12);
+  --cyan:#22D3EE;--cyan-dim:#0a2d33;
+  --emerald:#10B981;--emerald-dim:#052e16;
+  --amber:#F59E0B;--amber-dim:#2d2208;
+  --blue:#3B82F6;--rose:#F43F5E;
+  --muted:#8B949E;--text:#E6EDF3;--radius:12px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;
+  font-size:15px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+
+body::before{content:'';position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(99,102,241,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(99,102,241,.025) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(13,17,23,.9);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2.5rem;height:56px;gap:12px}
+.nav-logo{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;
+  display:flex;align-items:center;gap:10px}
+.nav-logo .bracket{color:var(--indigo)}
+.nav-logo .inst{color:var(--muted);font-weight:400;font-size:12px}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-period{font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--muted);background:var(--surface);border:1px solid var(--border);
+  padding:4px 12px;border-radius:20px}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--indigo);
+  box-shadow:0 0 8px var(--indigo);animation:pi 2s ease-in-out infinite}
+@keyframes pi{0%,100%{opacity:1;box-shadow:0 0 8px var(--indigo)}50%{opacity:.4;box-shadow:0 0 2px var(--indigo)}}
+
+/* ── HERO ── */
+.hero{position:relative;z-index:1;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:80px 2rem 60px;text-align:center}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:var(--muted);letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:28px;display:flex;align-items:center;justify-content:center;gap:12px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';flex:1;max-width:60px;height:1px;background:var(--border)}
+.hero-icon{margin-bottom:28px}
+.hero h1{font-family:'JetBrains Mono',monospace;
+  font-size:clamp(2rem,6vw,4rem);font-weight:700;line-height:1.08;margin-bottom:10px}
+.hero h1 .ac{color:var(--indigo)}
+.hero h1 .dm{color:var(--muted);font-weight:300}
+.hero-sub{font-family:'JetBrains Mono',monospace;
+  font-size:clamp(.85rem,2vw,1.2rem);color:var(--muted);margin-bottom:18px}
+.hero p{color:var(--muted);font-size:15px;max-width:520px;margin:0 auto 40px}
+.hero-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:48px}
+.stat{text-align:center;font-family:'JetBrains Mono',monospace}
+.stat-n{font-size:30px;font-weight:700;line-height:1;margin-bottom:4px}
+.stat-l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--indigo);
+  color:white;font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:14px;padding:12px 28px;border-radius:8px;text-decoration:none;
+  transition:opacity .2s,transform .15s}
+.hero-cta:hover{opacity:.88;transform:translateY(-2px)}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  animation:float 2.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ── ABOUT ── */
+.about-strip{position:relative;z-index:1;background:var(--surface);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:40px 2.5rem}
+.about-inner{max-width:1000px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px}
+.ai-label{font-family:'JetBrains Mono',monospace;font-size:11px;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--indigo);margin-bottom:8px}
+.ai-text{font-size:14px;color:var(--muted);line-height:1.65}
+.ai-text strong{color:var(--text)}
+
+/* ── SECTION ── */
+.section{position:relative;z-index:1;max-width:1040px;margin:0 auto;
+  padding:56px 1.5rem 100px}
+.section-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;
+  text-transform:uppercase;letter-spacing:.12em;color:var(--muted);
+  display:flex;align-items:center;gap:12px;margin-bottom:36px}
+.section-eyebrow::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── WEEK GRID ── */
+.week-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px}
+
+.wcard{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+  display:flex;flex-direction:column;transition:border-color .25s,transform .2s}
+.wcard:not(.soon):hover{transform:translateY(-3px)}
+.wcard.current{border-color:var(--indigo);box-shadow:0 0 0 1px rgba(99,102,241,.15)}
+.wcard.current:hover{border-color:var(--indigo)}
+.wcard.available{border-color:rgba(99,102,241,.2)}
+.wcard.available:hover{border-color:var(--indigo)}
+.wcard.soon{opacity:.5;cursor:default}
+.wcard.soon:hover{transform:none}
+
+/* accent per week */
+.wcard.wk1 .wc-accent{background:linear-gradient(90deg,var(--indigo),var(--cyan))}
+.wcard.wk2 .wc-accent{background:linear-gradient(90deg,var(--cyan),var(--indigo))}
+.wcard.wk3 .wc-accent{background:linear-gradient(90deg,var(--indigo),var(--emerald))}
+.wcard.wk4 .wc-accent{background:linear-gradient(90deg,var(--amber),var(--indigo))}
+.wcard.wk5 .wc-accent{background:linear-gradient(90deg,var(--indigo),var(--rose))}
+.wcard.wk6 .wc-accent{background:linear-gradient(90deg,var(--blue),var(--indigo))}
+.wcard.soon .wc-accent{background:var(--border)}
+
+.wc-accent{height:3px}
+
+.wc-top{padding:22px 22px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.wc-num{font-family:'JetBrains Mono',monospace;font-size:48px;font-weight:700;
+  line-height:1;letter-spacing:-.03em;user-select:none}
+.wcard.current  .wc-num{color:var(--indigo);opacity:.2}
+.wcard.available .wc-num{color:var(--indigo);opacity:.15}
+.wcard.soon     .wc-num{color:var(--muted);opacity:.08}
+
+.wc-badge{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:4px}
+.badge-curr{background:var(--indigo-dim);color:var(--indigo);border:1px solid rgba(99,102,241,.35)}
+.badge-avail{background:var(--indigo-dim);color:var(--indigo);border:1px solid rgba(99,102,241,.25)}
+.badge-soon{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+
+.wc-body{padding:14px 22px 18px;flex:1;display:flex;flex-direction:column;gap:8px}
+.wc-label{font-family:'JetBrains Mono',monospace;font-size:11px;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.wc-title{font-size:17px;font-weight:700;line-height:1.2}
+.wc-desc{font-size:13px;color:var(--muted);line-height:1.6;flex:1}
+.wc-topics{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.topic{font-family:'JetBrains Mono',monospace;font-size:11px;
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--muted);padding:3px 8px;border-radius:4px}
+.topic.it{color:var(--indigo);border-color:rgba(99,102,241,.2);background:var(--indigo-dim)}
+
+.wc-files{padding:0 22px 18px;display:flex;flex-direction:column;gap:6px}
+.file-link{display:flex;align-items:center;gap:9px;padding:9px 12px;
+  border-radius:7px;background:var(--surface2);border:1px solid var(--border);
+  text-decoration:none;color:var(--text);font-size:13px;
+  font-family:'JetBrains Mono',monospace;transition:all .2s}
+.file-link:hover{border-color:var(--indigo);color:var(--indigo)}
+.fl-name{flex:1;font-size:12px}
+.fl-type{font-size:10px;color:var(--muted);background:var(--bg);
+  border:1px solid var(--border);padding:1px 6px;border-radius:3px}
+.wc-soon{padding:12px 22px 18px;font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--muted);opacity:.7;display:flex;align-items:center;gap:7px}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);
+  padding:28px 2.5rem;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-brand{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted)}
+.footer-brand span{color:var(--indigo)}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap}
+.footer-links a{font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+
+@media(max-width:700px){
+  nav{padding:0 1rem}.nav-period{display:none}
+  .about-inner{grid-template-columns:1fr}
+  footer{flex-direction:column;align-items:center;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <span class="bracket">⬡</span>
+    <span>TIC</span>
+    <span class="inst">Informática Aplicada · ITB</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-period">Período 2025 · 2026</div>
+    <div class="nav-dot"></div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Instituto Tecnológico de Negocios · Materia</div>
+
+  <div class="hero-icon">
+    <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="8" width="56" height="56" rx="12" fill="#1a1b3a" stroke="#6366F1" stroke-width="2"/>
+      <!-- network nodes -->
+      <circle cx="36" cy="36" r="5" fill="#6366F1"/>
+      <circle cx="18" cy="24" r="3.5" fill="#6366F1" opacity=".7"/>
+      <circle cx="54" cy="24" r="3.5" fill="#22D3EE" opacity=".7"/>
+      <circle cx="18" cy="48" r="3.5" fill="#22D3EE" opacity=".7"/>
+      <circle cx="54" cy="48" r="3.5" fill="#6366F1" opacity=".7"/>
+      <!-- connections -->
+      <line x1="21" y1="25" x2="33" y2="33" stroke="#6366F1" stroke-width="1.5" opacity=".5"/>
+      <line x1="51" y1="25" x2="39" y2="33" stroke="#22D3EE" stroke-width="1.5" opacity=".5"/>
+      <line x1="21" y1="47" x2="33" y2="39" stroke="#22D3EE" stroke-width="1.5" opacity=".5"/>
+      <line x1="51" y1="47" x2="39" y2="39" stroke="#6366F1" stroke-width="1.5" opacity=".5"/>
+      <line x1="18" y1="27" x2="18" y2="45" stroke="#6366F1" stroke-width="1" stroke-dasharray="3,2" opacity=".4"/>
+      <line x1="54" y1="27" x2="54" y2="45" stroke="#22D3EE" stroke-width="1" stroke-dasharray="3,2" opacity=".4"/>
+    </svg>
+  </div>
+
+  <h1>
+    <span class="dm">Informática</span><br>
+    <span class="ac">Aplicada</span>
+  </h1>
+  <div class="hero-sub">Google Drive · Microsoft 365 · Colaboración · Productividad</div>
+  <p>Domina las herramientas digitales esenciales del entorno laboral: hojas de cálculo, documentos, presentaciones, datos y trabajo colaborativo en la nube.</p>
+
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-n" style="color:var(--indigo)">6</div><div class="stat-l">Semanas</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--emerald)">6</div><div class="stat-l">Disponibles</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--cyan)">2</div><div class="stat-l">Plataformas</div></div>
+  </div>
+
+  <a href="#semanas" class="hero-cta">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    Ver el contenido
+  </a>
+
+  <div class="scroll-hint">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    scroll
+  </div>
+</section>
+
+<div class="about-strip">
+  <div class="about-inner">
+    <div>
+      <div class="ai-label">// Objetivo</div>
+      <div class="ai-text">Desarrollar <strong>competencias digitales</strong> para el entorno profesional: gestión de datos, automatización, análisis, comunicación y trabajo colaborativo con herramientas en la nube.</div>
+    </div>
+    <div>
+      <div class="ai-label">// Plataformas</div>
+      <div class="ai-text">Cada semana incluye instrucciones para <strong>Google Drive (Sheets, Docs, Slides)</strong> y <strong>Microsoft 365 (Excel, Word, PowerPoint)</strong> — tú eliges con cuál practicar.</div>
+    </div>
+    <div>
+      <div class="ai-label">// Evaluación</div>
+      <div class="ai-text">Cada página tiene una <strong>lista de verificación interactiva</strong> con progreso guardado automáticamente. Completa todos los ítems para certificar la semana.</div>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="semanas">
+  <div class="section-eyebrow">// Contenido del curso — 6 semanas</div>
+  <div class="week-grid">
+
+    <!-- SEMANA 1 -->
+    <div class="wcard wk1 available">
+      <div class="wc-accent"></div>
+      <div class="wc-top">
+        <div class="wc-num">S1</div>
+        <div class="wc-badge badge-avail">✓ Disponible</div>
+      </div>
+      <div class="wc-body">
+        <div class="wc-label">Semana 1</div>
+        <div class="wc-title">Fundamentos y Gestión de Datos</div>
+        <div class="wc-desc">Importar datos, dar formato profesional, gestionar filas y columnas, y usar filtros básicos para organizar información.</div>
+        <div class="wc-topics">
+          <span class="topic it">CSV</span>
+          <span class="topic it">Formato</span>
+          <span class="topic it">Filtros</span>
+          <span class="topic it">Moneda</span>
+        </div>
+      </div>
+      <div class="wc-files">
+        <a class="file-link" href="tic-semana1.html">
+          <span>📖</span><span class="fl-name">tic-semana1.html</span>
+          <span class="fl-type">laboratorio</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- SEMANA 2 -->
+    <div class="wcard wk2 available">
+      <div class="wc-accent"></div>
+      <div class="wc-top">
+        <div class="wc-num">S2</div>
+        <div class="wc-badge badge-avail">✓ Disponible</div>
+      </div>
+      <div class="wc-body">
+        <div class="wc-label">Semana 2</div>
+        <div class="wc-title">Aritmética y Análisis Estadístico</div>
+        <div class="wc-desc">Fórmulas básicas, función SUMA, PROMEDIO, MAX, MIN y CONTAR.SI aplicadas a un rol de pagos real.</div>
+        <div class="wc-topics">
+          <span class="topic it">SUMA</span>
+          <span class="topic it">PROMEDIO</span>
+          <span class="topic it">CONTAR.SI</span>
+          <span class="topic it">Rol de pagos</span>
+        </div>
+      </div>
+      <div class="wc-files">
+        <a class="file-link" href="tic-semana2.html">
+          <span>📖</span><span class="fl-name">tic-semana2.html</span>
+          <span class="fl-type">laboratorio</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- SEMANA 3 -->
+    <div class="wcard wk3 available">
+      <div class="wc-accent"></div>
+      <div class="wc-top">
+        <div class="wc-num">S3</div>
+        <div class="wc-badge badge-avail">✓ Disponible</div>
+      </div>
+      <div class="wc-body">
+        <div class="wc-label">Semana 3</div>
+        <div class="wc-title">Lógica y Automatización</div>
+        <div class="wc-desc">Función SI simple y anidada, BUSCARV para cruzar información entre hojas y validación de datos con listas desplegables.</div>
+        <div class="wc-topics">
+          <span class="topic it">SI anidado</span>
+          <span class="topic it">BUSCARV</span>
+          <span class="topic it">Validación</span>
+          <span class="topic it">Listas</span>
+        </div>
+      </div>
+      <div class="wc-files">
+        <a class="file-link" href="tic-semana3.html">
+          <span>📖</span><span class="fl-name">tic-semana3.html</span>
+          <span class="fl-type">laboratorio</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- SEMANA 4 -->
+    <div class="wcard wk4 available">
+      <div class="wc-accent"></div>
+      <div class="wc-top">
+        <div class="wc-num">S4</div>
+        <div class="wc-badge badge-avail">✓ Disponible</div>
+      </div>
+      <div class="wc-body">
+        <div class="wc-label">Semana 4</div>
+        <div class="wc-title">Inteligencia de Datos y Gráficos</div>
+        <div class="wc-desc">Tablas Dinámicas para resumir y analizar, configuración de cálculos y creación de gráficos profesionales con el tipo correcto para cada dato.</div>
+        <div class="wc-topics">
+          <span class="topic it">Tabla Dinámica</span>
+          <span class="topic it">Gráficos</span>
+          <span class="topic it">PROMEDIO</span>
+          <span class="topic it">Análisis</span>
+        </div>
+      </div>
+      <div class="wc-files">
+        <a class="file-link" href="tic-semana4.html">
+          <span>📖</span><span class="fl-name">tic-semana4.html</span>
+          <span class="fl-type">laboratorio</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- SEMANA 5 -->
+    <div class="wcard wk5 available">
+      <div class="wc-accent"></div>
+      <div class="wc-top">
+        <div class="wc-num">S5</div>
+        <div class="wc-badge badge-avail">✓ Disponible</div>
+      </div>
+      <div class="wc-body">
+        <div class="wc-label">Semana 5</div>
+        <div class="wc-title">Comunicación y Reportes Ejecutivos</div>
+        <div class="wc-desc">Documentos con estilos y tabla de contenidos automática. Presentaciones ejecutivas con regla 6×6 y gráficos vinculados desde la hoja de cálculo.</div>
+        <div class="wc-topics">
+          <span class="topic it">Word · Docs</span>
+          <span class="topic it">Estilos</span>
+          <span class="topic it">PowerPoint</span>
+          <span class="topic it">Slides</span>
+        </div>
+      </div>
+      <div class="wc-files">
+        <a class="file-link" href="tic-semana5.html">
+          <span>📖</span><span class="fl-name">tic-semana5.html</span>
+          <span class="fl-type">laboratorio</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- SEMANA 6 -->
+    <div class="wcard wk6 available">
+      <div class="wc-accent"></div>
+      <div class="wc-top">
+        <div class="wc-num">S6</div>
+        <div class="wc-badge badge-avail">✓ Disponible</div>
+      </div>
+      <div class="wc-body">
+        <div class="wc-label">Semana 6</div>
+        <div class="wc-title">Productividad y Trabajo Colaborativo</div>
+        <div class="wc-desc">Flujo de trabajo empresarial integrado: calendario, acta de reunión, reporte colaborativo y presentación final vinculada — los cuatro productos conectados.</div>
+        <div class="wc-topics">
+          <span class="topic it">Calendario</span>
+          <span class="topic it">Comentarios</span>
+          <span class="topic it">Colaboración</span>
+          <span class="topic it">Flujo integrado</span>
+        </div>
+      </div>
+      <div class="wc-files">
+        <a class="file-link" href="tic-semana6.html">
+          <span>📖</span><span class="fl-name">tic-semana6.html</span>
+          <span class="fl-type">laboratorio</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand"><span>⬡ TIC</span> &nbsp;·&nbsp; Instituto Tecnológico de Negocios &nbsp;·&nbsp; Informática Aplicada</div>
+  <div class="footer-links">
+    <a href="tic-semana1.html">Semana 1</a>
+    <a href="tic-semana2.html">Semana 2</a>
+    <a href="tic-semana3.html">Semana 3</a>
+    <a href="tic-semana4.html">Semana 4</a>
+    <a href="tic-semana5.html">Semana 5</a>
+    <a href="tic-semana6.html">Semana 6</a>
+  </div>
+</footer>
+
+</body>
+</html>
